@@ -30,13 +30,13 @@ int main() {
                     menu(i);
                 }
                 else {
-                    i = 4;
-                    menu(5);
+                    i = 6;
+                    menu(6);
                 }
             break;
 
             case 80:
-                if(i != 5)
+                if(i != 6)
                 {
                     i++;
                     menu(i);
@@ -68,6 +68,11 @@ int main() {
                         printf("\n");
                         break;
                     case 4:
+                        printf("[!] Estrutura: \n\n");
+                        imprimirEstrutura(raiz, 0);
+                        printf("\n");
+                        break;
+                    case 5:
                         printf("[?] Insira uma chave: ");
                         scanf("%d", &chave);
                         avl *encontrado = pesquisar(raiz, chave);
@@ -77,8 +82,17 @@ int main() {
                             printf("[!] Chave %d não encontrada!\n", chave);
                         }
                         break;
-                    case 5:
-                        //substituir
+                    case 6:
+                        printf("[?] Insira a chave a ser substituida: ");
+                        int chave;
+                        scanf("%d", &chave);
+
+                        printf("[?] Insira a chave que vai substituir: ");
+                        int chave2;
+                        scanf("%d", &chave2);
+
+                        raiz = substituir(raiz, chave, chave2);
+
                         break;
                     default:
                         break;
