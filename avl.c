@@ -192,17 +192,76 @@ void imprimirEmOrdem(avl *raiz) {
     }
 }
 
+void imprimirEstrutura(avl *raiz, int nivel) {
+    if (raiz == NULL) {
+        return;
+    }
+
+    imprimirEstrutura(raiz->dir, nivel + 1);
+
+    for (int i = 0; i < nivel; i++) {
+        printf("    ");
+    }
+    printf("%d\n", raiz->chave);
+
+    imprimirEstrutura(raiz->esq, nivel + 1);
+}
+
+int validarBST(avl *raiz, int min, int max) {
+    if (!raiz) return 1;
+
+    if (raiz->chave <= min || raiz->chave >= max)
+        return 0;
+
+    return validarBST(raiz->esq, min, raiz->chave) &&
+           validarBST(raiz->dir, raiz->chave, max);
+}
+
+
+avl *substituir(avl *raiz, int chaveAntiga, int chaveNova) {
+    if (!raiz) {
+        printf("[!] Substituicao invalida\n");
+        return raiz;
+    }
+
+    avl *noAntigo = pesquisar(raiz, chaveAntiga);
+    avl *existeNovo = pesquisar(raiz, chaveNova);
+
+    if (!noAntigo || existeNovo) {
+        printf("[!] Substituicao invalida\n");
+        return raiz;
+    }
+
+    int chaveOriginal = noAntigo->chave;
+    noAntigo->chave = chaveNova;
+
+    if (!validarBST(raiz, INT_MIN, INT_MAX)) {
+        noAntigo->chave = chaveOriginal;
+        printf("[!] Substituicao invalida\n");
+        return raiz;
+    }
+
+    printf("[!] Substituicao feita!\n");
+    return raiz;
+}
+
+
+
+
+
+
 void menu(int pos)
 {
     system("cls");
-    int maxOp = 5;
+    int maxOp = 6;
     printf("======================================\n");
     printf("|                 MENU               |\n");
     printf("======================================\n");
-    char op[][20] = {
+    char op[][30] = {
         "Inserir",
         "Remover",
-        "Mostrar - Pre Ordem",
+        "Imprimir - Pre Ordem",
+        "Imprimir - Estrutura",
         "Pesquisar",
         "Substituir"
     };
